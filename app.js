@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-
+const cookieParser = require('cookie-parser')
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(cookieParser())
 
 let students=[];
 function queryError(msg) {
@@ -53,6 +54,16 @@ app.post('/register',(req,res)=>{
     res.send("student registered");
 })
 
-
+app.get('/login/:name',(req,res)=>{
+    res.cookie('name',req.params.name);
+    res.send("Gotcha!")
+})
+app.get('/hello',(req,res)=>{
+    if (req.cookies.name) {
+        res.send(`Hello ${req.cookies.name}`);
+    }else{
+        res.send("I do not know you")
+    }
+})
 const port = 3000
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`))
