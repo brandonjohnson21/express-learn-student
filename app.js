@@ -34,6 +34,7 @@ app.get('/grades/:studentId',(req,res)=>{
 app.post('/grades',(req,res)=>{
     let student = getStudent(student=>student.id==req.body.studentId);
     if (student.status!=='error' && req.body.grades) {
+        //TODO: actually register grades
         res.send({status:'success',message:'added grade to user'})
     }else{
         res.send(queryError('Failed to post grade'));
